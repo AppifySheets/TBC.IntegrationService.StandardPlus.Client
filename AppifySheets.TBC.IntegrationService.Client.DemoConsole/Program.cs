@@ -11,8 +11,6 @@ var tbcSoapCaller = new TBCSoapCaller("certificate.pfx", "CertificatePassword", 
 var accountMovements = await Worker.GetDeserialized(new GetAccountMovementsDeserializer(tbcSoapCaller,
     new Period(new DateTime(2023, 9, 1), new DateTime(2023, 9, 26))));
 
-Debugger.Break();
-
 var withinBankGel = await Worker
     .GetDeserialized(new ImportSinglePaymentOrdersDeserializer(tbcSoapCaller,
         new SoapImportSinglePaymentOrders(
@@ -81,11 +79,3 @@ var toTreasury = await Worker
                 BeneficiaryName = "TEST",
                 SenderAccountWithCurrency = BankAccountWithCurrencyV.Create(new BankAccountV("GE31TB7467936080100003"), CurrencyV.GEL).Value
             })));
-
-var allResults = new[] { toTreasury, toAnotherBankCurrencyBad, toAnotherBankCurrencyGood, toAnotherBankGel, withinBankCurrency, withinBankGel };
-
-Debugger.Break();
-
-// var response = await tbcSoapCaller.CallTBCService(new TBCSoapCaller.PerformedAction(TBCSoapCaller.CreateGetAccountsMovementSoapEnvelope(credentials,
-//         new Period(new DateTime(2023, 9, 1), new DateTime(2023, 9, 26)), 0),
-//     TBCSoapCaller.TBCServiceAction.GetAccountMovements));
