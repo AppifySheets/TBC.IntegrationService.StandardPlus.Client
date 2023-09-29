@@ -3,12 +3,6 @@ Client for TBC Standard+ IntegrationService
 
 ### Usage
 ```csharp
-using AppifySheets.Immutable.BankIntegrationTypes;
-using AppifySheets.TBC.IntegrationService.Client.ApiConfiguration;
-using AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.GetAccountMovements;
-using AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.ImportSinglePaymentOrders;
-using AppifySheets.TBC.IntegrationService.Client.TBC_Services;
-
 var credentials = new TBCApiCredentials("Username", "Password"); // Obtain API Credentials & Certificate with password from the Bank/Banker
 var tbcSoapCaller = new TBCSoapCaller("certificate.pfx", "CertificatePassword", credentials);
 
