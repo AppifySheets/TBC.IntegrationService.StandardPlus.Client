@@ -1,5 +1,5 @@
 # TBC.IntegrationService.StandardPlus.Client
-Client for TBC Standard+ IntegrationService
+Client for TBC Standard+ IntegrationService - https://developers.tbcbank.ge/docs/dbi-overview
 
 ### Usage
 See the [Demo](AppifySheets.TBC.IntegrationService.Client.DemoConsole/Program.cs)
