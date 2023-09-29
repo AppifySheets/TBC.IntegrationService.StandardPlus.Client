@@ -1,6 +1,10 @@
 # TBC Bank IntegrationService Standard+ C#/net7 Client
 Client for TBC Standard+ IntegrationService - https://developers.tbcbank.ge/docs/dbi-overview
 
+## Following services are implemented:
+* (Import Single Payments)[https://developers.tbcbank.ge/docs/import-single-payments]
+* (Account Movement)[https://developers.tbcbank.ge/docs/account-movement]
+
 ### Usage
 See the [Demo](AppifySheets.TBC.IntegrationService.Client.DemoConsole/Program.cs)
 
