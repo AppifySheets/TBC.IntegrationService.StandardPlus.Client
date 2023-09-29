@@ -1,4 +1,4 @@
-# TBC.IntegrationService.StandardPlus.Client
+# TBC IntegrationService Standard+ C#/net7 Client
 Client for TBC Standard+ IntegrationService - https://developers.tbcbank.ge/docs/dbi-overview
 
 ### Usage
