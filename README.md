@@ -1,7 +1,8 @@
 # TBC.IntegrationService.StandardPlus.Client
 Client for TBC Standard+ IntegrationService
 
-### Usage
+### Usage - See the [Demo](AppifySheets.TBC.IntegrationService.Client.DemoConsole/Program.cs)
+
 ```csharp
 var credentials = new TBCApiCredentials("Username", "Password"); // Obtain API Credentials & Certificate with password from the Bank/Banker
 var tbcSoapCaller = new TBCSoapCaller("certificate.pfx", "CertificatePassword", credentials);
