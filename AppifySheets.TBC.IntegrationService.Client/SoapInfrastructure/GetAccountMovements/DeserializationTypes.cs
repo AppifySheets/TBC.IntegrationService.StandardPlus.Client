@@ -8,9 +8,9 @@ namespace AppifySheets.TBC.IntegrationService.Client.TBC_Services;
 public class Pager
 {
     [XmlElement(ElementName = "pageIndex")]
-    public string PageIndex { get; init; }
+    public int PageIndex { get; init; }
 
-    [XmlElement(ElementName = "pageSize")] public string PageSize { get; init; }
+    [XmlElement(ElementName = "pageSize")] public int PageSize { get; init; }
 }
 
 [XmlRoot(ElementName = "result")]
@@ -19,7 +19,7 @@ public class ResultXml
     [XmlElement(ElementName = "pager")] public Pager Pager { get; init; }
 
     [XmlElement(ElementName = "totalCount")]
-    public string TotalCount { get; init; }
+    public int TotalCount { get; init; }
 }
 
 [XmlRoot(ElementName = "amount")]

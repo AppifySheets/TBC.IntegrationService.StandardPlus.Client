@@ -21,9 +21,9 @@ public record GetAccountMovementsDeserializer(TBCSoapCaller TBCSoapCaller, Perio
 
         var deserializedData = tbcServiceResult.Value;
 
-        Log.Information("{ReceivedRecordsCount} records received", deserializedData.ResultXml.TotalCount);
+        Log.Information("TBC - {ToBeReceivedAccountMovementsCount} records are being received", deserializedData.ResultXml.TotalCount);
 
-        var pagesTotal = Convert.ToInt32(Math.Ceiling(double.Parse(deserializedData.ResultXml.TotalCount) / int.Parse(deserializedData.ResultXml.Pager.PageSize)));
+        var pagesTotal = Convert.ToInt32(Math.Ceiling((double)deserializedData.ResultXml.TotalCount / deserializedData.ResultXml.Pager.PageSize));
 
         var accountMovements = deserializedData.AccountMovement.ToList();
 
@@ -36,6 +36,11 @@ public record GetAccountMovementsDeserializer(TBCSoapCaller TBCSoapCaller, Perio
 
             accountMovements.AddRange(deserializedData1.AccountMovement);
         }
+
+        if (accountMovements.Count != deserializedData.ResultXml.TotalCount)
+            throw new InvalidOperationException($"Received AccountMovements count of [{accountMovements.Count}] differs from expected of [{deserializedData.ResultXml.TotalCount}]");
+
+        Log.Information("TBC - {ReceivedAccountMovementsCount} records are being received", accountMovements.Count);
 
         return accountMovements;
 
