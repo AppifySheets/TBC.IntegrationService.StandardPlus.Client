@@ -40,7 +40,7 @@ public record GetAccountMovementsDeserializer(TBCSoapCaller TBCSoapCaller, Perio
         if (accountMovements.Count != deserializedData.ResultXml.TotalCount)
             throw new InvalidOperationException($"Received AccountMovements count of [{accountMovements.Count}] differs from expected of [{deserializedData.ResultXml.TotalCount}]");
 
-        Log.Information("TBC - {ReceivedAccountMovementsCount} records are being received", accountMovements.Count);
+        Log.Information("TBC - {ReceivedAccountMovementsCount} records have been received", accountMovements.Count);
 
         return accountMovements;
 
