@@ -25,7 +25,7 @@ public record CurrencyV
     public static readonly CurrencyV EUR = new CurrencyV("EUR"); 
     public static readonly CurrencyV GBP = new CurrencyV("GBP"); 
     public string Code { get; }
-    CurrencyV(string code)
+    public CurrencyV(string code)
     {
         if (code.Length != 3)
             throw new InvalidOperationException("Code must be 3 characters long");

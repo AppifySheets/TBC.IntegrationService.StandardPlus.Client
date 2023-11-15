@@ -27,7 +27,7 @@ public record SoapImportSinglePaymentOrders(TransferTypeRecord TransferType)
                       </myg:debitAccount>
                       <myg:documentNumber>{TransferType.DocumentNumber}</myg:documentNumber>
                       <myg:amount>
-                         <myg:amount>{TransferType.Amount}</myg:amount>
+                         <myg:amount>{TransferType.Amount:F2}</myg:amount>
                          <myg:currency>{TransferType.SenderAccountWithCurrency.CurrencyV}</myg:currency>
                       </myg:amount>
                       <myg:position>3</myg:position>
