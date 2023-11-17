@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace AppifySheets.TBC.IntegrationService.Client.TBC_Services;
+namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.GetAccountMovements;
 
 [XmlRoot(ElementName = "pager")]
 public class Pager

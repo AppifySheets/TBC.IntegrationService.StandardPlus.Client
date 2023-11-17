@@ -9,6 +9,7 @@ public record PerformedActionSoapEnvelope(XmlDocument Document, PerformedActionS
     public enum TBCServiceAction
     {
         GetAccountMovements,
-        ImportSinglePaymentOrders
+        ImportSinglePaymentOrders,
+        GetPaymentOrderStatus
     }
 }

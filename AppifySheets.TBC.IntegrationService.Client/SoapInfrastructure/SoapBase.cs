@@ -16,6 +16,7 @@ public abstract record SoapBase(PerformedActionSoapEnvelope.TBCServiceAction TBC
     //public PerformedActionSoapEnvelope CreateTransferTemplate => TBCIntegrationServiceSoapSource.GetPerformedActionFor(TBCApiCredentials, TBCServiceAction, SoapXml);
 }
 
+// ReSharper disable once InconsistentNaming
 public abstract record SoapBaseWithDeserializer<TDeserializeInto, TSoapBase>(TBCSoapCaller TBCSoapCaller) where TSoapBase : SoapBase
 {
     
