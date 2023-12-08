@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using AppifySheets.Immutable.BankIntegrationTypes;
+using AppifySheets.TBC.IntegrationService.Client;
 using AppifySheets.TBC.IntegrationService.Client.ApiConfiguration;
 using AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.GetAccountMovements;
 using AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.GetPaymentOrderStatus;

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Web;
 using JetBrains.Annotations;
 
 namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.ImportSinglePaymentOrders;
@@ -12,7 +13,6 @@ public record SoapImportSinglePaymentOrders(TransferTypeRecord TransferType)
         => $"""
             <myg:ImportSinglePaymentOrdersRequestIo>
                 <myg:singlePaymentOrder xsi:type="myg:{TransferType.GetType().Name}">
-                   <!--optional<myg:singlePaymentRequestId>231</myg:singlePaymentRequestId>-->
                     {TransferType.Is<IRecipient>(b
                         => $"""
                             <myg:creditAccount>

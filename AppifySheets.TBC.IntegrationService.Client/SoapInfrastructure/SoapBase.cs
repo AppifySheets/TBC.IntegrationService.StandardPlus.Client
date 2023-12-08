@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using System.Xml;
 using AppifySheets.TBC.IntegrationService.Client.TBC_Services;
 using CSharpFunctionalExtensions;
 
@@ -35,9 +36,21 @@ public abstract record SoapBaseWithDeserializer<TDeserializeInto, TSoapBase>(TBC
 public static class DeserializationExtensions
 {
     public static Result<T> DeserializeInto<T>(this string str)
-        => str.Replace("ns2:", "")
-            .Replace(@"<SOAP-ENV:Envelope xmlns:SOAP-ENV=""http://schemas.xmlsoap.org/soap/envelope/""><SOAP-ENV:Header/><SOAP-ENV:Body>", "")
-            .Replace(@"</SOAP-ENV:Body></SOAP-ENV:Envelope>", "")
+    {
+        var doc = new XmlDocument();
+        doc.LoadXml(str);
+        var bodyNode = doc.SelectSingleNode("//SOAP-ENV:Body", GetNamespaceManager(doc));
+        if (bodyNode == null) return Result.Failure<T>("bodyNode was null");
+        
+        return bodyNode.InnerXml.Replace("ns2:","")
             .XmlDeserializeFromString<T>();
 
+        static XmlNamespaceManager GetNamespaceManager(XmlDocument doc)
+        {
+            var nsManager = new XmlNamespaceManager(doc.NameTable);
+            nsManager.AddNamespace("SOAP-ENV", "http://schemas.xmlsoap.org/soap/envelope/");
+            nsManager.AddNamespace("ns2", "http://www.mygemini.com/schemas/mygemini");
+            return nsManager;
+        }
+    }
 }

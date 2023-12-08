@@ -2,7 +2,7 @@
 using AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure;
 using CSharpFunctionalExtensions;
 
-namespace AppifySheets.TBC.IntegrationService.Client.TBC_Services;
+namespace AppifySheets.TBC.IntegrationService.Client;
 
 public static class Worker
 {
