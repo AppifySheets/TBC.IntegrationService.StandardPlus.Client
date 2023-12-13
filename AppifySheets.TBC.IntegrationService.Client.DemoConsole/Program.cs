@@ -8,7 +8,9 @@ using AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.ImportSingle
 using AppifySheets.TBC.IntegrationService.Client.TBC_Services;
 
 var credentials = new TBCApiCredentials("Username", "Password");
-var tbcSoapCaller = new TBCSoapCaller("certificate.pfx", "CertificatePassword", credentials);
+var tbcApiCredentialsWithCertificate = new TBCApiCredentialsWithCertificate(credentials, "TBCIntegrationService.pfx", "CertificatePassword");
+
+var tbcSoapCaller = new TBCSoapCaller(tbcApiCredentialsWithCertificate);
 
 var accountMovements = await Worker.GetDeserialized(new GetAccountMovementsDeserializer(tbcSoapCaller,
     new Period(new DateTime(2023, 9, 1), new DateTime(2023, 9, 26))));
@@ -100,3 +102,5 @@ var toTreasury = await Worker
                 BeneficiaryName = "TEST",
                 SenderAccountWithCurrency = BankAccountWithCurrencyV.Create(new BankAccountV("GE31TB7467936080100003"), CurrencyV.GEL).Value
             })));
+
+Debugger.Break();

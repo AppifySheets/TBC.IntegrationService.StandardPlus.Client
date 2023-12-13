@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Net.Http;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
@@ -13,24 +12,9 @@ using CSharpFunctionalExtensions;
 
 namespace AppifySheets.TBC.IntegrationService.Client.TBC_Services;
 
-public class TBCSoapCaller
+// ReSharper disable once InconsistentNaming
+public class TBCSoapCaller(TBCApiCredentialsWithCertificate tbcApiCredentialsWithCertificate)
 {
-    readonly string _certificateFileName;
-    readonly string _certificatePassword;
-    readonly TBCApiCredentials _credentials;
-
-    public TBCSoapCaller(string certificateFileName, string certificatePassword, TBCApiCredentials credentials)
-    {
-        if (!certificateFileName.EndsWith(".pfx"))
-            throw new InvalidOperationException("Certificate must have a '.pfx' extension");
-        if(!Path.Exists(certificateFileName))
-            throw new InvalidOperationException($"Certificate does not exist at location [{Path.GetFullPath(certificateFileName)}]");
-        
-        _certificateFileName = certificateFileName;
-        _certificatePassword = certificatePassword;
-        _credentials = credentials;
-    }
-
     static PerformedActionSoapEnvelope GetPerformedActionFor(TBCApiCredentials credentials, PerformedActionSoapEnvelope.TBCServiceAction serviceAction, 
         [StringSyntax(StringSyntaxAttribute.Xml)] string xmlBody)
     {
@@ -59,7 +43,7 @@ public class TBCSoapCaller
     }
     public Task<Result<string>> CallTBCServiceAsync(SoapBase soapBase)
     {
-        var template = GetPerformedActionFor(_credentials, soapBase.TBCServiceAction, soapBase.SoapXml);
+        var template = GetPerformedActionFor(tbcApiCredentialsWithCertificate.TBCApiCredentials, soapBase.TBCServiceAction, soapBase.SoapXml);
         
         return CallTBCServiceAsync(template);
     }
@@ -83,7 +67,11 @@ public class TBCSoapCaller
         using var content = new StringContent(soapEnvelopeXml.OuterXml, Encoding.UTF8, "text/xml");
         request.Content = content;
 
-        using var response = await client.SendAsync(request);
+        var responseResult = await Result.Try(() => client.SendAsync(request), exception => exception.ToString());
+        if (responseResult.IsFailure) return responseResult.ConvertFailure<string>();
+
+        using var response = responseResult.Value;
+        
         var responseContent = await response.Content.ReadAsStringAsync();
         try
         {
@@ -98,7 +86,7 @@ public class TBCSoapCaller
         X509Certificate2Collection GetCertificates()
         {
             var collection = new X509Certificate2Collection();
-            collection.Import(_certificateFileName, _certificatePassword, X509KeyStorageFlags.PersistKeySet);
+            collection.Import(tbcApiCredentialsWithCertificate.CertificateFileName, tbcApiCredentialsWithCertificate.CertificatePassword, X509KeyStorageFlags.PersistKeySet);
             return collection;
         }
     }
