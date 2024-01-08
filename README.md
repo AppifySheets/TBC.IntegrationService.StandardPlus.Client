@@ -1,4 +1,4 @@
-# TBC Bank IntegrationService Standard+ C#/net7 Client
+# TBC Bank IntegrationService Standard+ C#/net8 Client
 Service Documentation by the TBC Bank is here - https://developers.tbcbank.ge/docs/dbi-overview
 
 ## Following services are implemented:
