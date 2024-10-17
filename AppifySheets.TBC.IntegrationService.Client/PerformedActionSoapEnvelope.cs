@@ -10,6 +10,7 @@ public record PerformedActionSoapEnvelope(XmlDocument Document, PerformedActionS
     {
         GetAccountMovements,
         ImportSinglePaymentOrders,
-        GetPaymentOrderStatus
+        GetPaymentOrderStatus,
+        ChangePassword
     }
 }
