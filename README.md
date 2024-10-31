@@ -1,4 +1,9 @@
 # TBC Bank IntegrationService Standard+ C#/net8 Client
+## Why - official implementation is error-prone, easy-to-mess-up and requires a lot of manual fixing
+### Current library attempts to wrap calls in immutable, type-safe way
+
+#### You will require 4 things from the TBC Bank - 1) `.pfx` certificate, 2) `Username`, 3) `Password` and 4) `certificate_password`
+
 Service Documentation by the TBC Bank is here - https://developers.tbcbank.ge/docs/dbi-overview
 
 ## Following services are implemented:
@@ -10,7 +15,7 @@ See the [Demo](AppifySheets.TBC.IntegrationService.Client.DemoConsole/Program.cs
 
 ```csharp
 var credentials = new TBCApiCredentials("Username", "Password"); // Obtain API Credentials & Certificate with password from the Bank/Banker
-var tbcApiCredentialsWithCertificate = new TBCApiCredentialsWithCertificate(credentials, "TBCIntegrationService.pfx", "XR_w;,64");
+var tbcApiCredentialsWithCertificate = new TBCApiCredentialsWithCertificate(credentials, "TBCIntegrationService.pfx", "certificate_password");
 
 var tbcSoapCaller = new TBCSoapCaller(tbcApiCredentialsWithCertificate);
 
