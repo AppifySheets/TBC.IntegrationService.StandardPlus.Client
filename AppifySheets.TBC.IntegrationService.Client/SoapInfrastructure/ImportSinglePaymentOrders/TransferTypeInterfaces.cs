@@ -2,28 +2,37 @@
 
 namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.ImportSinglePaymentOrders;
 
-public abstract record TransferTypeRecord
+public sealed record TransferTypeRecordSpecific
 {
     public required BankAccountWithCurrencyV SenderAccountWithCurrency { get; init; }
     public required long DocumentNumber { get; init; }
     public required decimal Amount { get; init; }
     public required string BeneficiaryName { get; init; }
 }
+public abstract record TransferTypeRecord
+{
+    public required TransferTypeRecordSpecific TransferTypeRecordSpecific { get; init; }
+
+    public BankAccountWithCurrencyV SenderAccountWithCurrency => TransferTypeRecordSpecific.SenderAccountWithCurrency;
+    public long DocumentNumber => TransferTypeRecordSpecific.DocumentNumber;
+    public decimal Amount => TransferTypeRecordSpecific.Amount;
+    public string BeneficiaryName => TransferTypeRecordSpecific.BeneficiaryName;
+}
 
 public interface IDescription
 {
-    public string Description { get; }
+    public string? Description { get; }
 }
 
 public interface IAdditionalDescription
 {
-    public string AdditionalDescription { get; }
+    public string? AdditionalDescription { get; }
 }
 
-public interface IBeneficiaryName
-{
-    public string BeneficiaryName { get; }
-}
+// public interface IBeneficiaryName
+// {
+//     public string BeneficiaryName { get; }
+// }
 
 public interface ITreasury
 {
@@ -35,12 +44,12 @@ public interface IRecipient
     public BankAccountWithCurrencyV RecipientAccountWithCurrency { get; }
 }
 
-public interface IBeneficiaryTaxCode : IBeneficiaryName
+public interface IBeneficiaryTaxCode //: IBeneficiaryName
 {
     public string BeneficiaryTaxCode { get; }
 }
 
-public interface IBeneficiaryForCurrencyTransfer : IBeneficiaryName
+public interface IBeneficiaryForCurrencyTransfer // : IBeneficiaryName
 {
     public string BeneficiaryAddress { get; }
     public string BeneficiaryBankCode { get; }

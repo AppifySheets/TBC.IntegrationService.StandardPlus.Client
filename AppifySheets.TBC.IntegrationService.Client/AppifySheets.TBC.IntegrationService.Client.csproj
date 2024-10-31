@@ -1,11 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
-
-    <ItemGroup>
-        <Folder Include="ApiConfiguration\" />
-    </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\AppifySheets.Immutable.BankIntegrationTypes\AppifySheets.Immutable.BankIntegrationTypes.csproj" />

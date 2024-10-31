@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppifySheets.Immutable.Bank
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppifySheets.TBC.IntegrationService.Client.DemoConsole", "AppifySheets.TBC.IntegrationService.Client.DemoConsole\AppifySheets.TBC.IntegrationService.Client.DemoConsole.csproj", "{89942BF5-D5A8-471E-8054-946082FF525D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppifySheets.TBC.IntegrationService.Tests", "AppifySheets.TBC.IntegrationService.Tests\AppifySheets.TBC.IntegrationService.Tests.csproj", "{8E92D749-7721-4AE1-B015-6B9F000F55A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		DbUpdateLocal|Any CPU = DbUpdateLocal|Any CPU
@@ -118,6 +120,36 @@ Global
 		{89942BF5-D5A8-471E-8054-946082FF525D}.TEST|x64.Build.0 = Debug|Any CPU
 		{89942BF5-D5A8-471E-8054-946082FF525D}.TEST|x86.ActiveCfg = Debug|Any CPU
 		{89942BF5-D5A8-471E-8054-946082FF525D}.TEST|x86.Build.0 = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.DbUpdateLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.DbUpdateLocal|Any CPU.Build.0 = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.DbUpdateLocal|x64.ActiveCfg = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.DbUpdateLocal|x64.Build.0 = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.DbUpdateLocal|x86.ActiveCfg = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.DbUpdateLocal|x86.Build.0 = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.Debug|x64.Build.0 = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.Debug|x86.Build.0 = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.EasyTest|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.EasyTest|Any CPU.Build.0 = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.EasyTest|x64.ActiveCfg = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.EasyTest|x64.Build.0 = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.EasyTest|x86.ActiveCfg = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.EasyTest|x86.Build.0 = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.Release|x64.ActiveCfg = Release|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.Release|x64.Build.0 = Release|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.Release|x86.ActiveCfg = Release|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.Release|x86.Build.0 = Release|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.TEST|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.TEST|Any CPU.Build.0 = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.TEST|x64.ActiveCfg = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.TEST|x64.Build.0 = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.TEST|x86.ActiveCfg = Debug|Any CPU
+		{8E92D749-7721-4AE1-B015-6B9F000F55A2}.TEST|x86.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

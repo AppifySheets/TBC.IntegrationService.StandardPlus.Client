@@ -1,11 +1,11 @@
-﻿using System;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 using static AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.GetPaymentOrderStatus.PaymentStatusEnum;
 
 namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.GetPaymentOrderStatus;
 
 [XmlRoot(ElementName="GetPaymentOrderStatusResponseIo")]
-public class GetPaymentOrderStatusResponseIo { 
+public class GetPaymentOrderStatusResponseIo : ISoapResponse
+{ 
 
     [XmlElement(ElementName="status")] 
     public string Status { get; init; }
@@ -68,21 +68,5 @@ public enum PaymentStatusEnum
 public class Body { 
 
     [XmlElement(ElementName="GetPaymentOrderStatusResponseIo")] 
-    public GetPaymentOrderStatusResponseIo GetPaymentOrderStatusResponseIo { get; init; } 
-}
-
-[XmlRoot(ElementName="Envelope")]
-public class Envelope { 
-
-    [XmlElement(ElementName="Header")] 
-    public object Header { get; init; } 
-
-    [XmlElement(ElementName="Body")] 
-    public Body Body { get; init; } 
-
-    [XmlAttribute(AttributeName="SOAP-ENV")] 
-    public string SOAPENV { get; init; } 
-
-    [XmlText] 
-    public string Text { get; init; } 
+    public GetPaymentOrderStatusResponseIo? GetPaymentOrderStatusResponseIo { get; init; } 
 }

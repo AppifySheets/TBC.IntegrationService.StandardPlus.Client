@@ -4,8 +4,8 @@ using JetBrains.Annotations;
 namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.GetPaymentOrderStatus;
 
 [UsedImplicitly]
-public record SoapGetPaymentOrderStatus(int SinglePaymentId)
-    : SoapBase(PerformedActionSoapEnvelope.TBCServiceAction.GetPaymentOrderStatus)
+public record GetPaymentOrderStatusRequestIo(int SinglePaymentId)
+    : RequestSoap<GetPaymentOrderStatusResponseIo>
 {
     [StringSyntax(StringSyntaxAttribute.Xml)]
     public override string SoapXml
@@ -14,4 +14,6 @@ public record SoapGetPaymentOrderStatus(int SinglePaymentId)
             	<myg:singlePaymentId>{SinglePaymentId}</myg:singlePaymentId>
             </myg:GetPaymentOrderStatusRequestIo>
             """;
+
+    public override TBCServiceAction TBCServiceAction => TBCServiceAction.GetPaymentOrderStatus;
 }

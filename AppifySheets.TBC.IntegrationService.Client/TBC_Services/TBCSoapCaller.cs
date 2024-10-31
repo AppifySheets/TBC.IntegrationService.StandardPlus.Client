@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Security.Authentication;
@@ -6,6 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 using AppifySheets.TBC.IntegrationService.Client.ApiConfiguration;
 using AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure;
 using CSharpFunctionalExtensions;
@@ -13,10 +15,20 @@ using CSharpFunctionalExtensions;
 namespace AppifySheets.TBC.IntegrationService.Client.TBC_Services;
 
 // ReSharper disable once InconsistentNaming
-public class TBCSoapCaller(TBCApiCredentialsWithCertificate tbcApiCredentialsWithCertificate)
+public sealed class TBCSoapCaller(TBCApiCredentialsWithCertificate tbcApiCredentialsWithCertificate)
 {
-    static PerformedActionSoapEnvelope GetPerformedActionFor(TBCApiCredentials credentials, PerformedActionSoapEnvelope.TBCServiceAction serviceAction, 
-        [StringSyntax(StringSyntaxAttribute.Xml)] string xmlBody)
+    public async Task<Result<TDeserializeInto>> GetDeserialized<TDeserializeInto>(RequestSoap<TDeserializeInto> RequestSoap) where TDeserializeInto : ISoapResponse
+    {
+        var response = await CallTBCServiceAsync(RequestSoap);
+        // ReSharper disable once ConvertIfStatementToReturnStatement
+        if (response.IsFailure) return response.ConvertFailure<TDeserializeInto>();
+
+        return response.Value.DeserializeInto<TDeserializeInto>();
+    }
+
+    static PerformedActionSoapEnvelope GetPerformedActionFor(TBCApiCredentials credentials, TBCServiceAction serviceAction,
+        [StringSyntax(StringSyntaxAttribute.Xml)]
+        string xmlBody)
     {
         var xmlDoc = new XmlDocument();
         xmlDoc.LoadXml($"""
@@ -39,15 +51,21 @@ public class TBCSoapCaller(TBCApiCredentialsWithCertificate tbcApiCredentialsWit
                         </soapenv:Envelope>
                         """);
 
+        if (Debugger.IsAttached)
+        {
+            var xmlText =  FormatXml(xmlDoc.InnerXml);
+        }
+
         return new PerformedActionSoapEnvelope(xmlDoc, serviceAction);
     }
-    public Task<Result<string>> CallTBCServiceAsync(SoapBase soapBase)
+
+    public Task<Result<string>> CallTBCServiceAsync<TDeserializeInto>(RequestSoap<TDeserializeInto> requestSoap) where TDeserializeInto : ISoapResponse
     {
-        var template = GetPerformedActionFor(tbcApiCredentialsWithCertificate.TBCApiCredentials, soapBase.TBCServiceAction, soapBase.SoapXml);
-        
+        var template = GetPerformedActionFor(tbcApiCredentialsWithCertificate.TBCApiCredentials, requestSoap.TBCServiceAction, requestSoap.SoapXml);
+
         return CallTBCServiceAsync(template);
     }
-    
+
     async Task<Result<string>> CallTBCServiceAsync(PerformedActionSoapEnvelope performedActionSoapEnvelope)
     {
         const string url = "https://secdbi.tbconline.ge/dbi/dbiService";
@@ -68,10 +86,15 @@ public class TBCSoapCaller(TBCApiCredentialsWithCertificate tbcApiCredentialsWit
         request.Content = content;
 
         var responseResult = await Result.Try(() => client.SendAsync(request), exception => exception.ToString());
-        if (responseResult.IsFailure) return responseResult.ConvertFailure<string>();
+        if (responseResult.IsFailure)
+            return responseResult
+                .ConvertFailure<string>()
+                .OnFailureCompensate(r => FormatXml(r));
+
+        
 
         using var response = responseResult.Value;
-        
+
         var responseContent = await response.Content.ReadAsStringAsync();
         try
         {
@@ -80,7 +103,7 @@ public class TBCSoapCaller(TBCApiCredentialsWithCertificate tbcApiCredentialsWit
         }
         catch (Exception)
         {
-            return Result.Failure<string>(responseContent);
+            return Result.Failure<string>(FormatXml(responseContent));
         }
 
         X509Certificate2Collection GetCertificates()
@@ -88,6 +111,20 @@ public class TBCSoapCaller(TBCApiCredentialsWithCertificate tbcApiCredentialsWit
             var collection = new X509Certificate2Collection();
             collection.Import(tbcApiCredentialsWithCertificate.CertificateFileName, tbcApiCredentialsWithCertificate.CertificatePassword, X509KeyStorageFlags.PersistKeySet);
             return collection;
+        }
+    }
+
+    static string FormatXml(string xml)
+    {
+        try
+        {
+            var doc = XDocument.Parse(xml);
+            return doc.ToString();
+        }
+        catch (Exception)
+        {
+            // Handle and throw if fatal exception here; don't just ignore them
+            return xml;
         }
     }
 }

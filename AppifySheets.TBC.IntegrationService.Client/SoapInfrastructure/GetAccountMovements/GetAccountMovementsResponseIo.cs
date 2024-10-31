@@ -114,12 +114,12 @@ public class AccountMovement
 }
 
 [XmlRoot(ElementName = "GetAccountMovementsResponseIo")]
-public class GetAccountMovementsResponseIo
+public class GetAccountMovementsResponseIo : ISoapResponse
 {
-    [XmlElement(ElementName = "result")] public ResultXml ResultXml { get; init; }
+    [XmlElement(ElementName = "result")] public ResultXml? ResultXml { get; init; }
 
     [XmlElement(ElementName = "accountMovement")]
-    public List<AccountMovement> AccountMovement { get; init; }
+    public List<AccountMovement>? AccountMovement { get; init; }
 
     [XmlAttribute(AttributeName = "ns2", Namespace = "http://www.w3.org/2000/xmlns/")]
     public string Ns2 { get; init; }

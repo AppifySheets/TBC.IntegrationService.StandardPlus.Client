@@ -4,8 +4,7 @@ using JetBrains.Annotations;
 namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.PasswordChangeRelated;
 
 [UsedImplicitly]
-public record SoapChangePasswordRequestIo(string NewPassword)
-    : SoapBase(PerformedActionSoapEnvelope.TBCServiceAction.ChangePassword)
+public record ChangePasswordRequestIo(string NewPassword) : RequestSoap<ChangePasswordResponseIo>()
 {
     [StringSyntax(StringSyntaxAttribute.Xml)]
     public override string SoapXml
@@ -14,4 +13,6 @@ public record SoapChangePasswordRequestIo(string NewPassword)
                <myg:newPassword>{NewPassword}</myg:newPassword>
              </myg:ChangePasswordRequestIo>
             """;
+
+    public override TBCServiceAction TBCServiceAction => TBCServiceAction.ChangePassword;
 }

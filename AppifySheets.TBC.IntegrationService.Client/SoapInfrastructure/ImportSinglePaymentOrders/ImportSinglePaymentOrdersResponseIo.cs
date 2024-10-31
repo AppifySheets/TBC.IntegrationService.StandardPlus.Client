@@ -13,8 +13,9 @@ public class PaymentOrdersResults {
 }
 
 [XmlRoot(ElementName="ImportSinglePaymentOrdersResponseIo")]
-public class ImportSinglePaymentOrdersResponseIo { 
+public class ImportSinglePaymentOrdersResponseIo : ISoapResponse
+{ 
 
     [XmlElement(ElementName="PaymentOrdersResults")] 
-    public PaymentOrdersResults PaymentOrdersResults { get; init; } 
+    public PaymentOrdersResults? PaymentOrdersResults { get; init; } 
 }

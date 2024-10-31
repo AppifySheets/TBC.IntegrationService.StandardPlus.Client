@@ -9,10 +9,9 @@ using Serilog;
 
 namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.GetAccountMovements;
 
-public record GetAccountMovementsDeserializer(TBCSoapCaller TBCSoapCaller, Period Period)
-    : SoapBaseWithDeserializer<IReadOnlyCollection<AccountMovement>, SoapGetAccountMovements>(TBCSoapCaller)
+public abstract record GetAccountMovementsHelper
 {
-    async Task<Result<IReadOnlyCollection<AccountMovement>>> GetAccountMovement(Period period)
+    public static async Task<Result<IReadOnlyCollection<AccountMovement>>> GetAccountMovement(Period period, TBCSoapCaller tbcSoapCaller)
     {
         Log.Information("TBC - getting data for {Period}", period);
 
@@ -21,11 +20,11 @@ public record GetAccountMovementsDeserializer(TBCSoapCaller TBCSoapCaller, Perio
 
         var deserializedData = tbcServiceResult.Value;
 
-        Log.Information("TBC - {ToBeReceivedAccountMovementsCount} records are being received", deserializedData.ResultXml.TotalCount);
+        Log.Information("TBC - {ToBeReceivedAccountMovementsCount} records are being received", deserializedData.ResultXml!.TotalCount);
 
         var pagesTotal = Convert.ToInt32(Math.Ceiling((double)deserializedData.ResultXml.TotalCount / deserializedData.ResultXml.Pager.PageSize));
 
-        var accountMovements = deserializedData.AccountMovement.ToList();
+        var accountMovements = deserializedData.AccountMovement;
 
         for (var i = 1; i < pagesTotal; i++)
         {
@@ -46,14 +45,14 @@ public record GetAccountMovementsDeserializer(TBCSoapCaller TBCSoapCaller, Perio
 
         async Task<Result<GetAccountMovementsResponseIo>> GetData(int index)
         {
-            var result = await TBCSoapCaller.CallTBCServiceAsync(new SoapGetAccountMovements(period, index));
+            var result = await tbcSoapCaller.CallTBCServiceAsync(new GetAccountMovementsRequestIo(period, index));
             return result.IsFailure
                 ? result.ConvertFailure<GetAccountMovementsResponseIo>()
                 : result.Value.DeserializeInto<GetAccountMovementsResponseIo>();
         }
     }
 
-    protected override SoapGetAccountMovements GetSoapBase() => throw new NotImplementedException();
+    // protected override RequestSoapGetAccountMovements GetSoapBase() => throw new NotImplementedException();
 
-    public override Task<Result<IReadOnlyCollection<AccountMovement>>> GetDeserialized() => GetAccountMovement(Period);
+    // public override Task<Result<IReadOnlyCollection<AccountMovement>>> GetDeserialized() => GetAccountMovement(Period);
 }
