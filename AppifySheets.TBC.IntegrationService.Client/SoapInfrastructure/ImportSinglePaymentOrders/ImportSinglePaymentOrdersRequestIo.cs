@@ -8,6 +8,7 @@ namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.ImportSi
 public record ImportSinglePaymentOrdersRequestIo(TransferTypeRecord TransferType)
     : RequestSoap<ImportSinglePaymentOrdersResponseIo>
 {
+    public string SoapText => SoapXml().FormatXml();
     public override string SoapXml()
         => $"""
             <myg:ImportSinglePaymentOrdersRequestIo>
