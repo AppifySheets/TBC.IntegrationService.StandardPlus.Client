@@ -17,15 +17,7 @@ var tbcSoapCaller = new TBCSoapCaller(tbcApiCredentialsWithCertificate);
 var accountMovements =
     await GetAccountMovementsHelper.GetAccountMovement(new Period(new DateTime(2023, 9, 1), new DateTime(2023, 9, 26)), tbcSoapCaller);
 
-// return;
-
-// var checkStatus = await Worker
-//     .GetDeserialized(new SoapBaseWithDeserializer<GetPaymentOrderStatusResponseIo>(tbcSoapCaller)
-//     {
-//         RequestSoap = new RequestSoapGetPaymentOrderStatus(1632027071)
-//     });
-
-var checkStatus2 = await tbcSoapCaller.GetDeserialized(new GetPaymentOrderStatusRequestIo(1632027071));
+var checkStatus = await tbcSoapCaller.GetDeserialized(new GetPaymentOrderStatusRequestIo(1632027071));
 
 var ownAccountGEL = BankAccountWithCurrencyV.Create(new BankAccountV("GE31TB7467936080100003"), CurrencyV.GEL).Value;
 var ownAccountUSD = BankAccountWithCurrencyV.Create(new BankAccountV("GE47TB7467936170100001"), CurrencyV.USD).Value;
