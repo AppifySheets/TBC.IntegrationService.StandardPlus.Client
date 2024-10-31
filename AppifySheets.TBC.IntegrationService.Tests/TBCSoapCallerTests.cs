@@ -55,7 +55,7 @@ public class TBCSoapCallerTests
 
         var transferTypeRecordSpecific = new TransferTypeRecordSpecific
         {
-            DocumentNumber = 123,
+            DocumentNumber = 63865984018636,
             Amount = 0.01m,
             BeneficiaryName = "TEST",
             SenderAccountWithCurrency = ownAccountGEL,
@@ -65,7 +65,7 @@ public class TBCSoapCallerTests
         var withinBankGel2 = await _tbcSoapCaller.GetDeserialized(new ImportSinglePaymentOrdersRequestIo(
             new TransferWithinBankPaymentOrderIo
             {
-                RecipientAccountWithCurrency = BankAccountWithCurrencyV.Create(new BankAccountV("GE86TB1144836120100002"), CurrencyV.GEL).Value,
+                RecipientAccountWithCurrency = BankAccountWithCurrencyV.Create(new BankAccountV("GE24TB7755145063300001"), CurrencyV.GEL).Value,
                 TransferTypeRecordSpecific = transferTypeRecordSpecific
             }));
 
