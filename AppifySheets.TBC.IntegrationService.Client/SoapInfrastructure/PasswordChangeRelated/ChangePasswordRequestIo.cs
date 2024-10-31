@@ -1,13 +1,11 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
 namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.PasswordChangeRelated;
 
 [UsedImplicitly]
 public record ChangePasswordRequestIo(string NewPassword) : RequestSoap<ChangePasswordResponseIo>()
 {
-    [StringSyntax(StringSyntaxAttribute.Xml)]
-    public override string SoapXml
+    public override string SoapXml()
         => $"""
             <myg:ChangePasswordRequestIo>
                <myg:newPassword>{NewPassword}</myg:newPassword>

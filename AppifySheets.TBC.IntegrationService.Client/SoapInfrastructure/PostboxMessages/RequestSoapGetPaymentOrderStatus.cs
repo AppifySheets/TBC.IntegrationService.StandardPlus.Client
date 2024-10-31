@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
 namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.PostboxMessages;
 
@@ -7,8 +6,7 @@ namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.PostboxM
 public record GetPostboxMessagesRequestIo(MessageType MessageType)
     : RequestSoap<GetPostboxMessagesResponseIo>
 {
-    [StringSyntax(StringSyntaxAttribute.Xml)]
-    public override string SoapXml
+    public override string SoapXml()
         => $"""
             <myg:GetPostboxMessagesRequestIo>
             	<myg:messageType>{MessageType}</myg:messageType>

@@ -58,13 +58,13 @@ public class TBCSoapCallerTests
             DocumentNumber = 123,
             Amount = 0.01m,
             BeneficiaryName = "TEST",
-            SenderAccountWithCurrency = ownAccountGEL
+            SenderAccountWithCurrency = ownAccountGEL,
+            Description = "TEST"
         };
 
         var withinBankGel2 = await _tbcSoapCaller.GetDeserialized(new ImportSinglePaymentOrdersRequestIo(
             new TransferWithinBankPaymentOrderIo
             {
-                Description = "TEST",
                 RecipientAccountWithCurrency = BankAccountWithCurrencyV.Create(new BankAccountV("GE86TB1144836120100002"), CurrencyV.GEL).Value,
                 TransferTypeRecordSpecific = transferTypeRecordSpecific
             }));
@@ -77,20 +77,19 @@ public class TBCSoapCallerTests
                     SenderAccountWithCurrency = ownAccountUSD
                 },
                 RecipientAccountWithCurrency = BankAccountWithCurrencyV.Create(new BankAccountV("GE86TB1144836120100002"), CurrencyV.USD).Value,
-                Description = "TEST"
             }));
 
         var toAnotherBankGel = await _tbcSoapCaller.GetDeserialized(
             new ImportSinglePaymentOrdersRequestIo(
                 new TransferToOtherBankNationalCurrencyPaymentOrderIo(
-                    BankAccountWithCurrencyV.Create(new BankAccountV("GE33BG0000000263255500"), CurrencyV.GEL).Value, "TEST", "TEST", "123123123")
+                    BankAccountWithCurrencyV.Create(new BankAccountV("GE33BG0000000263255500"), CurrencyV.GEL).Value, "123123123")
                 {
                     TransferTypeRecordSpecific = transferTypeRecordSpecific
                 }));
 
         var toAnotherBankCurrencyGood = await _tbcSoapCaller.GetDeserialized(
             new ImportSinglePaymentOrdersRequestIo(
-                new TransferToOtherBankForeignCurrencyPaymentOrderIo("TEST", "TEST",
+                new TransferToOtherBankForeignCurrencyPaymentOrderIo(
                     "test", "test", "SHA", "TEST",
                     BankAccountWithCurrencyV.Create(new BankAccountV("GE33BG0000000263255500"), CurrencyV.USD).Value)
                 {
@@ -99,8 +98,7 @@ public class TBCSoapCallerTests
 
         var toAnotherBankCurrencyBad = await _tbcSoapCaller.GetDeserialized(
             new ImportSinglePaymentOrdersRequestIo(
-                new TransferToOtherBankForeignCurrencyPaymentOrderIo("TEST", "TEST",
-                    "test", "test", "SHA", "TEST",
+                new TransferToOtherBankForeignCurrencyPaymentOrderIo("test", "test", "SHA", "TEST",
                     BankAccountWithCurrencyV.Create(new BankAccountV("GE33BG0000000263255500"), CurrencyV.USD).Value)
                 {
                     TransferTypeRecordSpecific = transferTypeRecordSpecific with { SenderAccountWithCurrency = ownAccountUSD }
@@ -108,9 +106,9 @@ public class TBCSoapCallerTests
 
         var toChina = await _tbcSoapCaller.GetDeserialized(
             new ImportSinglePaymentOrdersRequestIo(
-                new TransferToOtherBankForeignCurrencyPaymentOrderIo("", "China",
+                new TransferToOtherBankForeignCurrencyPaymentOrderIo("China",
                     // "ICBKCNBJSZN", "INDUSTRIAL AND COMMERCIAL BANK OF CHINA SHENZHEN BRANCH", "SHA", "Invoice(LZSK202311028)",
-                    "ICBKCNBJSZN", "INDUSTRIAL AND COMMERCIAL BANK OF CHINA SHENZHEN BRANCH", "SHA", "(Invoice/Amount/Currency): (LZSK202311028/2590.00/USD) (LZSK202311027/2510.00/USD)",
+                    "ICBKCNBJSZN", "INDUSTRIAL AND COMMERCIAL BANK OF CHINA SHENZHEN BRANCH", "SHA",
                     BankAccountWithCurrencyV.Create(new BankAccountV("4000109819100186641"), CurrencyV.USD).Value)
                 {
                     TransferTypeRecordSpecific = transferTypeRecordSpecific with
@@ -122,7 +120,7 @@ public class TBCSoapCallerTests
 
         var toTreasury = await _tbcSoapCaller.GetDeserialized(
             new ImportSinglePaymentOrdersRequestIo(
-                new TreasuryTransferPaymentOrderIo(101001000, "TEST")
+                new TreasuryTransferPaymentOrderIo(101001000)
                     { TransferTypeRecordSpecific = transferTypeRecordSpecific }));
     }
 }

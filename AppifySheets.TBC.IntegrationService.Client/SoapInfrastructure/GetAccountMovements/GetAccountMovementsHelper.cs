@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AppifySheets.Immutable.BankIntegrationTypes;
 using AppifySheets.TBC.IntegrationService.Client.TBC_Services;

@@ -7,9 +7,9 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 using AppifySheets.TBC.IntegrationService.Client.ApiConfiguration;
 using AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure;
+using AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.ImportSinglePaymentOrders;
 using CSharpFunctionalExtensions;
 
 namespace AppifySheets.TBC.IntegrationService.Client.TBC_Services;
@@ -53,7 +53,7 @@ public sealed class TBCSoapCaller(TBCApiCredentialsWithCertificate tbcApiCredent
 
         if (Debugger.IsAttached)
         {
-            var xmlText =  FormatXml(xmlDoc.InnerXml);
+            var xmlText =  xmlDoc.InnerXml.FormatXml();
         }
 
         return new PerformedActionSoapEnvelope(xmlDoc, serviceAction);
@@ -61,7 +61,7 @@ public sealed class TBCSoapCaller(TBCApiCredentialsWithCertificate tbcApiCredent
 
     public Task<Result<string>> CallTBCServiceAsync<TDeserializeInto>(RequestSoap<TDeserializeInto> requestSoap) where TDeserializeInto : ISoapResponse
     {
-        var template = GetPerformedActionFor(tbcApiCredentialsWithCertificate.TBCApiCredentials, requestSoap.TBCServiceAction, requestSoap.SoapXml);
+        var template = GetPerformedActionFor(tbcApiCredentialsWithCertificate.TBCApiCredentials, requestSoap.TBCServiceAction, requestSoap.SoapXml());
 
         return CallTBCServiceAsync(template);
     }
@@ -89,7 +89,7 @@ public sealed class TBCSoapCaller(TBCApiCredentialsWithCertificate tbcApiCredent
         if (responseResult.IsFailure)
             return responseResult
                 .ConvertFailure<string>()
-                .OnFailureCompensate(r => FormatXml(r));
+                .OnFailureCompensate(r => r.FormatXml());
 
         
 
@@ -103,7 +103,7 @@ public sealed class TBCSoapCaller(TBCApiCredentialsWithCertificate tbcApiCredent
         }
         catch (Exception)
         {
-            return Result.Failure<string>(FormatXml(responseContent));
+            return Result.Failure<string>(responseContent.FormatXml());
         }
 
         X509Certificate2Collection GetCertificates()
@@ -114,17 +114,5 @@ public sealed class TBCSoapCaller(TBCApiCredentialsWithCertificate tbcApiCredent
         }
     }
 
-    static string FormatXml(string xml)
-    {
-        try
-        {
-            var doc = XDocument.Parse(xml);
-            return doc.ToString();
-        }
-        catch (Exception)
-        {
-            // Handle and throw if fatal exception here; don't just ignore them
-            return xml;
-        }
-    }
+    
 }

@@ -8,6 +8,8 @@ public sealed record TransferTypeRecordSpecific
     public required long DocumentNumber { get; init; }
     public required decimal Amount { get; init; }
     public required string BeneficiaryName { get; init; }
+    public required string Description { get; init; }
+    public string? AdditionalDescription { get; init; }
 }
 public abstract record TransferTypeRecord
 {
@@ -17,17 +19,19 @@ public abstract record TransferTypeRecord
     public long DocumentNumber => TransferTypeRecordSpecific.DocumentNumber;
     public decimal Amount => TransferTypeRecordSpecific.Amount;
     public string BeneficiaryName => TransferTypeRecordSpecific.BeneficiaryName;
+    public string Description => TransferTypeRecordSpecific.Description;
+    public string? AdditionalDescription => TransferTypeRecordSpecific.AdditionalDescription;
 }
 
-public interface IDescription
-{
-    public string? Description { get; }
-}
+// public interface IDescription
+// {
+//     public string? Description { get; }
+// }
 
-public interface IAdditionalDescription
-{
-    public string? AdditionalDescription { get; }
-}
+// public interface IAdditionalDescription
+// {
+//     public string? AdditionalDescription { get; }
+// }
 
 // public interface IBeneficiaryName
 // {

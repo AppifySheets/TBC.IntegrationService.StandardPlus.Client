@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using AppifySheets.Immutable.BankIntegrationTypes;
+﻿using AppifySheets.Immutable.BankIntegrationTypes;
 using JetBrains.Annotations;
 
 namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.GetAccountMovements;
@@ -8,8 +7,7 @@ namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.GetAccou
 public record GetAccountMovementsRequestIo(Period Period, int PageIndex)
     : RequestSoap<GetAccountMovementsResponseIo>
 {
-    [StringSyntax(StringSyntaxAttribute.Xml)]
-    public override string SoapXml
+    public override string SoapXml()
         => $"""
             <myg:GetAccountMovementsRequestIo>
                 <myg:accountMovementFilterIo>

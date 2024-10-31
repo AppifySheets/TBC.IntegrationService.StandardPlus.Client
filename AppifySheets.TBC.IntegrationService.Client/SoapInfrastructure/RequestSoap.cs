@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Xml;
+﻿using System.Xml;
 using AppifySheets.TBC.IntegrationService.Client.TBC_Services;
 using CSharpFunctionalExtensions;
 
@@ -10,7 +9,7 @@ public interface ISoapResponse;
 // ReSharper disable once UnusedTypeParameter
 public abstract record RequestSoap<TResponseDeserializeInto> where TResponseDeserializeInto : ISoapResponse
 {
-    [StringSyntax(StringSyntaxAttribute.Xml)] public abstract string SoapXml { get; }
+    public abstract string SoapXml();
 
     public abstract TBCServiceAction TBCServiceAction { get; }
 }

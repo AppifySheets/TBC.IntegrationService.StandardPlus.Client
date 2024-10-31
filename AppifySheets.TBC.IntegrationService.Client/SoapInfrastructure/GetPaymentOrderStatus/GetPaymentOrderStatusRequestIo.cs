@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
 namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.GetPaymentOrderStatus;
 
@@ -7,8 +6,7 @@ namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.GetPayme
 public record GetPaymentOrderStatusRequestIo(int SinglePaymentId)
     : RequestSoap<GetPaymentOrderStatusResponseIo>
 {
-    [StringSyntax(StringSyntaxAttribute.Xml)]
-    public override string SoapXml
+    public override string SoapXml()
         => $"""
             <myg:GetPaymentOrderStatusRequestIo>
             	<myg:singlePaymentId>{SinglePaymentId}</myg:singlePaymentId>

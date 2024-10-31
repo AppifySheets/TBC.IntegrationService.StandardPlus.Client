@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Xml.Linq;
 using JetBrains.Annotations;
 
 namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.ImportSinglePaymentOrders;
@@ -7,8 +8,7 @@ namespace AppifySheets.TBC.IntegrationService.Client.SoapInfrastructure.ImportSi
 public record ImportSinglePaymentOrdersRequestIo(TransferTypeRecord TransferType)
     : RequestSoap<ImportSinglePaymentOrdersResponseIo>
 {
-    [StringSyntax(StringSyntaxAttribute.Xml)]
-    public override string SoapXml
+    public override string SoapXml()
         => $"""
             <myg:ImportSinglePaymentOrdersRequestIo>
                 <myg:singlePaymentOrder xsi:type="myg:{TransferType.GetType().Name}">
@@ -30,8 +30,8 @@ public record ImportSinglePaymentOrdersRequestIo(TransferTypeRecord TransferType
                          <myg:currency>{TransferType.SenderAccountWithCurrency.CurrencyV}</myg:currency>
                       </myg:amount>
                       <myg:position>3</myg:position>
-                      <myg:additionalDescription>{TransferType.Is<IAdditionalDescription>(t => t.AdditionalDescription)}</myg:additionalDescription>
-                      <myg:description>{TransferType.Is<IDescription>(t => t.Description)}</myg:description>
+                      <myg:additionalDescription>{TransferType.AdditionalDescription}</myg:additionalDescription>
+                      <myg:description>{TransferType.Description}</myg:description>
                       <myg:beneficiaryName>{TransferType.BeneficiaryName}</myg:beneficiaryName>
                       {TransferType.Is<IBeneficiaryTaxCode>(b => $"<myg:beneficiaryTaxCode>{b.BeneficiaryTaxCode}</myg:beneficiaryTaxCode>")}
                       {TransferType.Is<IBeneficiaryForCurrencyTransfer>(b
@@ -46,7 +46,26 @@ public record ImportSinglePaymentOrdersRequestIo(TransferTypeRecord TransferType
                       {TransferType.Is<ITreasury>(b => $"<myg:treasuryCode>{b.TreasuryCode}</myg:treasuryCode>")}
                 </myg:singlePaymentOrder>
             </myg:ImportSinglePaymentOrdersRequestIo>
-            """;
+            """.FormatXml();
 
     public override TBCServiceAction TBCServiceAction => TBCServiceAction.ImportSinglePaymentOrders;
+}
+
+public static class UseExtensions
+{
+    public static TY Use<T, TY>(this T t, Func<T, TY> tTy) => tTy(t);
+    
+    public static string FormatXml(this string xml)
+    {
+        try
+        {
+            var doc = XDocument.Parse(xml);
+            return doc.ToString();
+        }
+        catch (Exception)
+        {
+            // Handle and throw if fatal exception here; don't just ignore them
+            return xml;
+        }
+    }
 }
