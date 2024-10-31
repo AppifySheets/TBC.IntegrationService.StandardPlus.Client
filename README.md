@@ -1,6 +1,6 @@
 # TBC Bank IntegrationService Standard+ C#/net8 Client
 ## Why - official implementation is error-prone, easy-to-mess-up and requires a lot of manual fixing
-### Current library attempts to wrap calls in immutable, type-safe way
+### Current library attempts to wrap soap calls in immutable, type-safe way
 
 #### You will require 4 things from the TBC Bank - 1) `.pfx` certificate, 2) `Username`, 3) `Password` and 4) `certificate_password`
 
